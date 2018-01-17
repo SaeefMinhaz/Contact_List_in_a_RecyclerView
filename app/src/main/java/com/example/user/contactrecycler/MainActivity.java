@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
 
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},PERMISSION_CONTACTS);
         } else {
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAllContacts() {
-        List<ContactVO> contactVOList = new ArrayList();
-        ContactVO contactVO;
+        List<ContactModel> contactModelList = new ArrayList();
+        ContactModel contactModel;
 
         ContentResolver contentResolver = getContentResolver();
         Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
 
-                    contactVO = new ContactVO();
-                    contactVO.setContactName(name);
+                    contactModel = new ContactModel();
+                    contactModel.setContactName(name);
 
                     Cursor phoneCursor = contentResolver.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             null);
                     if (phoneCursor.moveToNext()) {
                         String phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        contactVO.setContactNumber(phoneNumber);
+                        contactModel.setContactNumber(phoneNumber);
                     }
 
                     phoneCursor.close();
@@ -88,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
                     while (emailCursor.moveToNext()) {
                         String emailId = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     }
-                    contactVOList.add(contactVO);
+                    contactModelList.add(contactModel);
                 }
             }
 
-            AllContactsAdapter contactAdapter = new AllContactsAdapter(contactVOList, getApplicationContext());
+            ContactsAdapter contactAdapter = new ContactsAdapter(contactModelList, getApplicationContext());
             rvContacts.setLayoutManager(new LinearLayoutManager(this));
             rvContacts.setAdapter(contactAdapter);
         }

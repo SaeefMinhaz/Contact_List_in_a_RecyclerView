@@ -4,7 +4,7 @@ package com.example.user.contactrecycler;
  * Created by SHOVON on 1/17/2018.
  */
 
-public class ContactVO {
+public class ContactModel {
     private String ContactImage;
     private String ContactName;
     private String ContactNumber;

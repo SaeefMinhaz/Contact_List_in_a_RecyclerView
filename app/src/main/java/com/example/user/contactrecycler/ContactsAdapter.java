@@ -16,12 +16,12 @@ import java.util.List;
  * Created by SHOVON on 1/17/2018.
  */
 
-public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.ContactViewHolder>{
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>{
 
-    private List<ContactVO> contactVOList;
+    private List<ContactModel> contactModelList;
     private Context mContext;
-    public AllContactsAdapter(List<ContactVO> contactVOList, Context mContext){
-        this.contactVOList = contactVOList;
+    public ContactsAdapter(List<ContactModel> contactModelList, Context mContext){
+        this.contactModelList = contactModelList;
         this.mContext = mContext;
     }
 
@@ -34,21 +34,21 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
 
     @Override
     public void onBindViewHolder(ContactViewHolder holder, int position) {
-        final ContactVO contactVO = contactVOList.get(position);
-        holder.tvContactName.setText(contactVO.getContactName());
-        holder.tvPhoneNumber.setText(contactVO.getContactNumber());
+        final ContactModel contactModel = contactModelList.get(position);
+        holder.tvContactName.setText(contactModel.getContactName());
+        holder.tvPhoneNumber.setText(contactModel.getContactNumber());
 
         holder.contactsRowLV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,""+contactVO.getContactNumber(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,""+ contactModel.getContactNumber(),Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return contactVOList.size();
+        return contactModelList.size();
     }
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder{
